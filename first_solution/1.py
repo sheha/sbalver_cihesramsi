@@ -5,7 +5,6 @@ import ipdb
 
 
 def main(file1, file2):
-
     match_sort_output(readfile(file1), readfile(file2))
 
 
@@ -74,22 +73,14 @@ def input_validation():
     import os
     from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
+    parser = ArgumentParser(description=__doc__, formatter_class=ArgumentDefaultsHelpFormatter)
 
-    parser = ArgumentParser(description=__doc__,
-                            formatter_class=ArgumentDefaultsHelpFormatter)
+    parser.add_argument("-in1", "--infile1", dest="file1", type=lambda x: _file_exists(parser, x), nargs="?",
+                        const="file1.txt", default="file1.txt", required=False,
+                        help="line layout --> <first name> <ID number>", metavar="FILE")
 
-    parser.add_argument("-in1", "--infile1", dest="file1", type=lambda x: _file_exists(parser, x),
-                        nargs="?", const="file1.txt",
-                        default="file1.txt",
-                        required=False,
-                        help="line layout --> <first name> <ID number>",
-                        metavar="FILE")
-
-    parser.add_argument("-in2", "--infile2", dest="file2", type=lambda x: _file_exists(parser, x),
-                        default="file2.txt",
-                        required=False,
-                        help="line layout --> <last name> <ID number>",
-                        metavar="FILE")
+    parser.add_argument("-in2", "--infile2", dest="file2", type=lambda x: _file_exists(parser, x), default="file2.txt",
+                        required=False, help="line layout --> <last name> <ID number>", metavar="FILE")
 
     def _file_exists(pars, arg):
         arg = os.path.abspath(arg)
@@ -101,7 +92,3 @@ def input_validation():
 if __name__ == "__main__":
     args = input_validation().parse_args()
     main(args.file1, args.file2)
-
-
-
-

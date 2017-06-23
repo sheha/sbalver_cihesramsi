@@ -1,6 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""
+SECOND PROBLEM
+
+Braces Balancing check based on stacking.
+
+@author: Ismar Sehic, <https://github.com/sheha>
+
+June, 2017
+
+"""
+
 import re
 
 in_text = 'Python {is an easy to [learn]}, (powerful programming language. It)' \
@@ -15,7 +26,7 @@ def balance_checker(extract):
     """
     Determines braces balance using stacking mechanism to preserve opening braces when encountered,
     popping the last one out to compare against current closing brace.If they are a pair, loop forward.
-    Stack is empty in the end, if they're balanced.
+    Stack is empty in the end, if they're balanced.    
     """
 
     balanced_set = {('(', ')'), ('[', ']'), ('{', '}')}

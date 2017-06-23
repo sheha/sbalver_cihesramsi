@@ -1,7 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import ipdb
+"""
+FIRST PROBLEM
+
+Compares two entries from two different files containing common slug, in this case a numeric id.
+Sorts and outputs matches.
+Based on grouping and union of sets...
+
+@author: Ismar Sehic, <https://github.com/sheha>
+
+June, 2017
+
+"""
+
 
 
 def main(file1, file2):
@@ -11,12 +23,14 @@ def main(file1, file2):
 def readfile(f):
     """
     Reads the file lines in a set of tuples, with type conversion for common id.
+    For files larger than couple of dozen of GBs, splitting them into defined chunks would be a way to go, before 
+    they reach the readfile method, probably by using the itertools.islice method.
+    The 'with' context manager takes care of not eating too much memory, mostly by cleaning up after itself.    
     """
     types = str, int
 
     with open(f) as infile:
         result = set()
-
         for line in infile:
             result.add(tuple(t(e) for t, e in zip(types, line.rstrip().split())))
 
@@ -26,9 +40,8 @@ def readfile(f):
 def match_sort_output(content1, content2):
     """ 
     Simply prints out the result of nested helper _matcher(), 
-    that way we get a memory optimization and perf gain when _matcher does it's thing
-    and returns matched result set,
-    instead of keeping everything in this functions scope
+    so we get a memory optimization and perf gain when _matcher does it's thing
+    and returns matched result set,instead of keeping everything in this functions scope
     """
 
     def _matcher():
@@ -45,12 +58,12 @@ def match_sort_output(content1, content2):
         :return: set of match tuples sorted by the id
         """
         d1, d2 = {}, {}
+
         for item in content1:
             d1.setdefault(item[1], []).append(item[0])
-        print d1
+
         for item in content2:
             d2.setdefault(item[1], []).extend(item)
-        print d2
 
         result = [d1.get(key, []) + d2.get(key, []) for key in d1.viewkeys() | d2]
 
@@ -58,7 +71,6 @@ def match_sort_output(content1, content2):
 
         return sorted(result, key=lambda x: x[-1])
 
-    ipdb.set_trace()
     print _matcher()
 
 
